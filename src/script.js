@@ -25,10 +25,17 @@ const waterMaterial = new THREE.ShaderMaterial({
 
         uBigWavesElevation: { value: 0.2 },
         uBigWavesFrequency: { value: new THREE.Vector2(4, 1.5) },
-        uBigWavesSpeed: { value: 0.7 },
+        uBigWavesSpeed: { value: 0.75 },
+
+        uSmallWavesElevation: { value: 0.15 },
+        uSmallWavesFrequency: { value: 3 },
+        uSmallWavesSpeed: { value: 0.2 },
+        uSmallWavesIterations: { value: 4 },
 
         uDepthColor: { value: new THREE.Color(debugObject.depthColor) },
         uSurfaceColor: { value: new THREE.Color(debugObject.surfaceColor) },
+        colorOffset: { value: 0.08 },
+        uColorMultiplier: { value: 5 },
     }
 })
 
@@ -36,12 +43,20 @@ gui.add(waterMaterial.uniforms.uBigWavesElevation, 'value').min(0).max(1).step(0
 gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'x').min(0).max(10).step(0.001).name('uBigWavesFrequencyX')
 gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'y').min(0).max(10).step(0.001).name('uBigWavesFrequencyY')
 gui.add(waterMaterial.uniforms.uBigWavesSpeed, 'value').min(0).max(4).step(0.001).name('uBigWavesSpeed')
+
+gui.add(waterMaterial.uniforms.uSmallWavesElevation, 'value').min(0).max(1).step(0.001).name('uSmallWavesElevation')
+gui.add(waterMaterial.uniforms.uSmallWavesFrequency, 'value').min(0).max(30).step(0.001).name('uSmallWavesFrequency')
+gui.add(waterMaterial.uniforms.uSmallWavesSpeed, 'value').min(0).max(4).step(0.001).name('uSmallWavesSpeed')
+gui.add(waterMaterial.uniforms.uSmallWavesIterations, 'value').min(0).max(6).step(1).name('uSmallWavesIterations')
+
 gui.addColor(debugObject, 'depthColor').onChange(() => {
     waterMaterial.uniforms.uDepthColor.value.set(debugObject.depthColor)
 })
 gui.addColor(debugObject, 'surfaceColor').onChange(() => {
     waterMaterial.uniforms.uSurfaceColor.value.set(debugObject.surfaceColor)
 })
+gui.add(waterMaterial.uniforms.colorOffset, 'value').min(0).max(1).step(0.001).name('colorOffset')
+gui.add(waterMaterial.uniforms.uColorMultiplier, 'value').min(0).max(10).step(0.001).name('uColorMultiplier')
 
 const water = new THREE.Mesh(waterGeometry, waterMaterial)
 water.rotation.x = - Math.PI * 0.5
